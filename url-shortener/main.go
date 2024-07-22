@@ -3,30 +3,26 @@ package main
 import (
     "log"
     "net/http"
-    "os"
-
     "github.com/gin-gonic/gin"
     "url-shortener/handler"
 )
 
 func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000" // default port for local development
-	}
-
-    gin.SetMode(gin.ReleaseMode)
+    gin.SetMode(gin.ReleaseMode) // Set mode produksi
 
     r := gin.New()
-    r.Use(gin.Logger(), gin.Recovery())
-    r.SetTrustedProxies(nil)
+    r.Use(gin.Logger(), gin.Recovery()) // Menambahkan middleware logger dan recovery
+    r.SetTrustedProxies(nil) // Percayai semua proxy (untuk pengembangan)
 
+    // Menyajikan file statis
     r.Static("/static", "./static")
 
+    // Tambahkan root endpoint
     r.GET("/", func(c *gin.Context) {
         c.File("./static/index.html")
     })
 
+    // Tambahkan rute untuk favicon
     r.GET("/favicon.ico", func(c *gin.Context) {
         c.String(http.StatusNoContent, "")
     })
@@ -34,8 +30,8 @@ func main() {
     r.POST("/shorten", handler.ShortenURL)
     r.GET("/:shortURL", handler.RedirectURL)
 
-    log.Println("Server running on port " + port)
-    if err := r.Run(":" + port); err != nil {
+    log.Println("Server running on http://localhost:8080")
+    if err := r.Run(":8080"); err != nil {
         log.Fatal("Unable to start:", err)
     }
 }
