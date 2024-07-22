@@ -3,11 +3,18 @@ package main
 import (
     "log"
     "net/http"
+    "os"
+
     "github.com/gin-gonic/gin"
     "url-shortener/handler"
 )
 
 func main() {
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "3000" // default port for Vercel
+    }
+
     gin.SetMode(gin.ReleaseMode)
 
     r := gin.New()
@@ -27,8 +34,8 @@ func main() {
     r.POST("/shorten", handler.ShortenURL)
     r.GET("/:shortURL", handler.RedirectURL)
 
-    log.Println("Server running on http://0.0.0.0:3000")
-    if err := r.Run(":3000"); err != nil {
+    log.Println("Server running on port " + port)
+    if err := r.Run(":" + port); err != nil {
         log.Fatal("Unable to start:", err)
     }
 }

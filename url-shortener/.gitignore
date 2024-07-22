@@ -1,0 +1,18 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Binaries for Go projects
+*.test
+*.out
+
+# Output of the build
+main
+
+# IDE directories and files
+.vscode/
+.idea/
+*.iml
