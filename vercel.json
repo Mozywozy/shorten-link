@@ -2,14 +2,14 @@
     "version": 2,
     "builds": [
       {
-        "src": "main.go",
+        "src": "./url-shortener/main.go",
         "use": "@vercel/go"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "main.go"
+        "dest": "./url-shortener/main.go"
       }
     ]
   }
