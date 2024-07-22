@@ -8,21 +8,18 @@ import (
 )
 
 func main() {
-    gin.SetMode(gin.ReleaseMode) // Set mode produksi
+    gin.SetMode(gin.ReleaseMode)
 
     r := gin.New()
-    r.Use(gin.Logger(), gin.Recovery()) // Menambahkan middleware logger dan recovery
-    r.SetTrustedProxies(nil) // Percayai semua proxy (untuk pengembangan)
+    r.Use(gin.Logger(), gin.Recovery())
+    r.SetTrustedProxies(nil)
 
-    // Menyajikan file statis
     r.Static("/static", "./static")
 
-    // Tambahkan root endpoint
     r.GET("/", func(c *gin.Context) {
         c.File("./static/index.html")
     })
 
-    // Tambahkan rute untuk favicon
     r.GET("/favicon.ico", func(c *gin.Context) {
         c.String(http.StatusNoContent, "")
     })
@@ -30,8 +27,8 @@ func main() {
     r.POST("/shorten", handler.ShortenURL)
     r.GET("/:shortURL", handler.RedirectURL)
 
-    log.Println("Server running on http://localhost:8080")
-    if err := r.Run(":8080"); err != nil {
+    log.Println("Server running on http://0.0.0.0:3000")
+    if err := r.Run(":3000"); err != nil {
         log.Fatal("Unable to start:", err)
     }
 }
