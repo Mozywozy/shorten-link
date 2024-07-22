@@ -1,0 +1,9 @@
+{
+    "build": {
+      "dockerfilePath": "./Dockerfile"
+    },
+    "deploy": {
+      "command": null
+    }
+  }
+  
