@@ -3,6 +3,8 @@ package main
 import (
     "log"
     "net/http"
+    "os"
+
     "github.com/gin-gonic/gin"
     "url-shortener/handler"
 )
@@ -30,8 +32,14 @@ func main() {
     r.POST("/shorten", handler.ShortenURL)
     r.GET("/:shortURL", handler.RedirectURL)
 
-    log.Println("Server running on http://localhost:8080")
-    if err := r.Run(":8080"); err != nil {
+    // Gunakan PORT dari variabel lingkungan
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080" // Default port untuk pengembangan lokal
+    }
+
+    log.Printf("Server running on http://localhost:%s", port)
+    if err := r.Run(":" + port); err != nil {
         log.Fatal("Unable to start:", err)
     }
 }
